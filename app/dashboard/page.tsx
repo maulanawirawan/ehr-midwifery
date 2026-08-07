@@ -9,8 +9,26 @@ interface User {
   role?: string;
 }
 
+interface MidwifeStats {
+  totalPatients: number;
+  activePregnancies: number;
+  upcomingAppointments: number;
+  recentRecords: number;
+  todayVisits: number;
+  weeklyGrowth: string;
+}
+
+interface PatientStats {
+  myPregnancies: number;
+  upComingCheckups: number;
+  lastVisit: string;
+  healthScore: string;
+  medicationRefills: number;
+  notifications: number;
+}
+
 // Mock statistics
-const getStatistics = (role: string) => {
+const getStatistics = (role: string): MidwifeStats | PatientStats => {
   if (role === 'midwife') {
     return {
       totalPatients: 15,
@@ -35,15 +53,16 @@ const getStatistics = (role: string) => {
 export default function DashboardPage() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const [stats, setStats] = useState<any>({});
+  const [stats, setStats] = useState<MidwifeStats | PatientStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Get user from localStorage or check auth
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      setStats(getStatistics(JSON.parse(storedUser).role));
+      const userData = JSON.parse(storedUser);
+      setUser(userData);
+      setStats(getStatistics(userData.role));
     }
     setIsLoading(false);
   }, []);
@@ -127,7 +146,7 @@ export default function DashboardPage() {
 
         {/* Statistics Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {isMidwife ? (
+          {isMidwife && stats && (
             <>
               {/* Total Patients */}
               <div className="bg-white rounded-xl shadow-sm border border-slate-300 p-6">
@@ -165,7 +184,9 @@ export default function DashboardPage() {
                 <p className="text-sm text-slate-600">Weekly Growth</p>
               </div>
             </>
-          ) : (
+          )}
+
+          {!isMidwife && stats && (
             <>
               {/* My Pregnancies */}
               <div className="bg-white rounded-xl shadow-sm border border-slate-300 p-6">
