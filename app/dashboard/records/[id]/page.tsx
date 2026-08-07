@@ -165,7 +165,7 @@ export default function RecordDetailPage() {
       },
       examinationNotes: 'Vaginal exam: dilatasi 5cm, effacement 70%, station 0, membran ruptured spontanea. Kontraksi setiap 3 menit durasi 45 detik.',
       medicationPlan: 'Epidural analgesia requested, IV fluids maintenance',
-      followUpDate: new Date().toISOString(), // Delivery day
+      followUpDate: new Date().toISOString(),
     },
     '5': {
       id: '5',
@@ -202,13 +202,11 @@ export default function RecordDetailPage() {
     try {
       setIsLoading(true);
       
-      // Try API first, fallback to mock data
       const response = await fetch(`/api/records/${id}`);
       if (response.ok) {
         const data = await response.json();
         setRecord(data);
       } else {
-        // Fallback to mock data
         const mockData = mockRecords[id];
         if (mockData) {
           setRecord(mockData);
@@ -218,7 +216,6 @@ export default function RecordDetailPage() {
       }
     } catch (error) {
       console.error('Error fetching record:', error);
-      // Use mock data on error
       const mockData = mockRecords[recordId];
       if (mockData) {
         setRecord(mockData);
@@ -247,7 +244,7 @@ export default function RecordDetailPage() {
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
           <Activity className="w-12 h-12 text-blue-600 animate-spin mx-auto mb-4" />
-          <p className="text-slate-600">Loading patient record...</p>
+          <p className="text-slate-600 font-medium">Loading patient record...</p>
         </div>
       </div>
     );
@@ -256,10 +253,10 @@ export default function RecordDetailPage() {
   if (error || !record) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center">
-          <FileText className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+        <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center border border-slate-200">
+          <FileText className="w-16 h-16 text-slate-400 mx-auto mb-4" />
           <h2 className="text-xl font-semibold text-slate-900 mb-2">Record Not Found</h2>
-          <p className="text-slate-600 mb-6">{error || 'The requested patient record does not exist.'}</p>
+          <p className="text-slate-700 mb-6">{error || 'The requested patient record does not exist.'}</p>
           <button 
             onClick={() => router.push('/dashboard/records')}
             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg hover:shadow-lg transition-all duration-200"
@@ -275,27 +272,27 @@ export default function RecordDetailPage() {
   return (
     <div className="min-h-screen bg-slate-50 print:bg-white">
       {/* Navigation Bar */}
-      <nav className="bg-white border-b border-slate-200 sticky top-0 z-40 print:hidden">
+      <nav className="bg-white border-b border-slate-300 sticky top-0 z-40 shadow-sm print:hidden">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <button 
               onClick={() => router.push('/dashboard/records')}
-              className="inline-flex items-center gap-2 text-slate-600 hover:text-blue-600 transition-colors"
+              className="inline-flex items-center gap-2 text-slate-700 hover:text-blue-700 font-medium transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
-              <span className="font-medium">Back to Records</span>
+              <span>Back to Records List</span>
             </button>
             
             <div className="flex items-center gap-3">
               <button 
                 onClick={handlePrint}
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm text-slate-600 hover:text-blue-600 transition-colors border border-slate-200 rounded-lg hover:border-blue-300"
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:text-blue-700 transition-colors border border-slate-300 rounded-lg hover:border-blue-400 hover:bg-blue-50 font-medium"
               >
                 <Printer className="w-4 h-4" />
                 Print Record
               </button>
               <button 
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm text-slate-600 hover:text-blue-600 transition-colors border border-slate-200 rounded-lg hover:border-blue-300"
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:text-blue-700 transition-colors border border-slate-300 rounded-lg hover:border-blue-400 hover:bg-blue-50 font-medium"
               >
                 <Download className="w-4 h-4" />
                 Export PDF
@@ -308,7 +305,7 @@ export default function RecordDetailPage() {
       {/* Main Content */}
       <main className="container mx-auto px-6 py-8 print:p-0">
         {/* Header Card */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl shadow-lg p-8 text-white mb-8 print:bg-white print:text-black print:shadow-none print:border print:border-slate-200">
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl shadow-lg p-8 text-white mb-8 print:bg-white print:text-black print:shadow-none print:border print:border-slate-300">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-6">
               <div className="w-24 h-24 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
@@ -342,88 +339,88 @@ export default function RecordDetailPage() {
         {/* Patient Information Grid */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
           {/* Contact Info */}
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-300 p-6">
             <h3 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
               <Mail className="w-5 h-5 text-blue-600" />
               Contact Information
             </h3>
             <div className="space-y-3 text-sm">
               <div className="flex items-start gap-2">
-                <Phone className="w-4 h-4 text-slate-400 mt-0.5" />
-                <span>{record.patientPhone}</span>
+                <Phone className="w-4 h-4 text-slate-500 mt-0.5" />
+                <span className="font-medium text-slate-900">{record.patientPhone}</span>
               </div>
               <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 text-slate-400 mt-0.5" />
-                <span className="line-clamp-2">{record.patientAddress}</span>
+                <MapPin className="w-4 h-4 text-slate-500 mt-0.5" />
+                <span className="line-clamp-2 text-slate-900">{record.patientAddress}</span>
               </div>
               {record.patientEmail && (
                 <div className="flex items-start gap-2">
-                  <Mail className="w-4 h-4 text-slate-400 mt-0.5" />
-                  <span>{record.patientEmail}</span>
+                  <Mail className="w-4 h-4 text-slate-500 mt-0.5" />
+                  <span className="text-slate-900">{record.patientEmail}</span>
                 </div>
               )}
             </div>
           </div>
 
           {/* Vital Signs */}
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-300 p-6">
             <h3 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
               <Activity className="w-5 h-5 text-red-600" />
               Vital Signs
             </h3>
             {record.vitalSigns ? (
               <div className="space-y-2 text-sm">
-                <div className="flex justify-between pb-2 border-b border-slate-100">
-                  <span className="text-slate-600">Blood Pressure:</span>
-                  <span className="font-semibold text-slate-900">{record.vitalSigns.bloodPressure}</span>
+                <div className="flex justify-between pb-2 border-b border-slate-200">
+                  <span className="text-slate-700">Blood Pressure:</span>
+                  <span className="font-bold text-slate-900">{record.vitalSigns.bloodPressure}</span>
                 </div>
-                <div className="flex justify-between pb-2 border-b border-slate-100">
-                  <span className="text-slate-600">Heart Rate:</span>
-                  <span className="font-semibold text-slate-900">{record.vitalSigns.heartRate}</span>
+                <div className="flex justify-between pb-2 border-b border-slate-200">
+                  <span className="text-slate-700">Heart Rate:</span>
+                  <span className="font-bold text-slate-900">{record.vitalSigns.heartRate}</span>
                 </div>
-                <div className="flex justify-between pb-2 border-b border-slate-100">
-                  <span className="text-slate-600">Temperature:</span>
-                  <span className="font-semibold text-slate-900">{record.vitalSigns.temperature}</span>
+                <div className="flex justify-between pb-2 border-b border-slate-200">
+                  <span className="text-slate-700">Temperature:</span>
+                  <span className="font-bold text-slate-900">{record.vitalSigns.temperature}</span>
                 </div>
-                <div className="flex justify-between pb-2 border-b border-slate-100">
-                  <span className="text-slate-600">Respiratory:</span>
-                  <span className="font-semibold text-slate-900">{record.vitalSigns.respiratoryRate}</span>
+                <div className="flex justify-between pb-2 border-b border-slate-200">
+                  <span className="text-slate-700">Respiratory:</span>
+                  <span className="font-bold text-slate-900">{record.vitalSigns.respiratoryRate}</span>
                 </div>
-                <div className="flex justify-between pb-2 border-b border-slate-100">
-                  <span className="text-slate-600">Weight:</span>
-                  <span className="font-semibold text-slate-900">{record.vitalSigns.weight}</span>
+                <div className="flex justify-between pb-2 border-b border-slate-200">
+                  <span className="text-slate-700">Weight:</span>
+                  <span className="font-bold text-slate-900">{record.vitalSigns.weight}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-600">Height:</span>
-                  <span className="font-semibold text-slate-900">{record.vitalSigns.height}</span>
+                  <span className="text-slate-700">Height:</span>
+                  <span className="font-bold text-slate-900">{record.vitalSigns.height}</span>
                 </div>
               </div>
             ) : (
-              <p className="text-sm text-slate-500">No vital signs recorded</p>
+              <p className="text-sm text-slate-700">No vital signs recorded</p>
             )}
           </div>
 
           {/* Blood Type & Allergies */}
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-300 p-6">
             <h3 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
               <Shield className="w-5 h-5 text-purple-600" />
               Medical Info
             </h3>
             <div className="space-y-3 text-sm">
               <div>
-                <span className="text-slate-600">Blood Type:</span>
-                <span className="ml-2 font-bold text-lg text-red-600">{record.patientBloodType}{record.patientRhFactor}</span>
+                <span className="text-slate-700">Blood Type:</span>
+                <span className="ml-2 font-bold text-xl text-red-600">{record.patientBloodType}{record.patientRhFactor}</span>
               </div>
               <div>
-                <span className="text-slate-600">Birth Date:</span>
-                <span className="ml-2 text-slate-900">{new Date(record.patientBirthDate).toLocaleDateString('id-ID')}</span>
+                <span className="text-slate-700">Birth Date:</span>
+                <span className="ml-2 text-slate-900 font-medium">{new Date(record.patientBirthDate).toLocaleDateString('id-ID')}</span>
               </div>
               {record.patientAllergies && record.patientAllergies.length > 0 && (
                 <div>
-                  <span className="text-slate-600">Allergies:</span>
+                  <span className="text-slate-700">Allergies:</span>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {record.patientAllergies.map((allergy, i) => (
-                      <span key={i} className="px-2 py-1 bg-red-50 text-red-700 text-xs rounded-lg">
+                      <span key={i} className="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-lg font-medium">
                         {allergy}
                       </span>
                     ))}
@@ -437,73 +434,73 @@ export default function RecordDetailPage() {
         {/* Clinical Information */}
         <div className="grid md:grid-cols-2 gap-6 mb-8">
           {/* Chief Complaint */}
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-300 p-6">
             <h3 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
               <FileText className="w-5 h-5 text-orange-600" />
               Chief Complaint
             </h3>
             <div className="space-y-3 text-sm">
               <div>
-                <span className="text-slate-600">Complaint:</span>
+                <span className="text-slate-700">Complaint:</span>
                 <p className="font-medium text-slate-900 mt-1">{record.chiefComplaint}</p>
               </div>
               <div>
-                <span className="text-slate-600">Duration:</span>
-                <span className="ml-2 text-slate-900">{record.complaintDuration}</span>
+                <span className="text-slate-700">Duration:</span>
+                <span className="ml-2 text-slate-900 font-medium">{record.complaintDuration}</span>
               </div>
               <div>
-                <span className="text-slate-600">Location:</span>
-                <span className="ml-2 text-slate-900">{record.complaintLocation}</span>
+                <span className="text-slate-700">Location:</span>
+                <span className="ml-2 text-slate-900 font-medium">{record.complaintLocation}</span>
               </div>
             </div>
           </div>
 
           {/* Diagnosis */}
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-300 p-6">
             <h3 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
               <Baby className="w-5 h-5 text-pink-600" />
               Diagnosis
             </h3>
             <div>
-              <p className="text-slate-900 leading-relaxed">{record.diagnosisSummary}</p>
+              <p className="text-slate-900 leading-relaxed font-medium">{record.diagnosisSummary}</p>
             </div>
           </div>
         </div>
 
         {/* Treatment Plan */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-8">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-300 p-6 mb-8">
           <h3 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
             <Shield className="w-5 h-5 text-green-600" />
             Treatment Plan
           </h3>
-          <div className="text-slate-900 leading-relaxed">{record.treatmentPlan}</div>
+          <div className="text-slate-900 leading-relaxed font-medium">{record.treatmentPlan}</div>
           
           {record.medicationPlan && (
             <>
-              <h4 className="font-medium text-slate-900 mt-6 mb-3">Medication Plan</h4>
-              <p className="text-slate-700">{record.medicationPlan}</p>
+              <h4 className="font-semibold text-slate-900 mt-6 mb-3">Medication Plan</h4>
+              <p className="text-slate-900">{record.medicationPlan}</p>
             </>
           )}
           
           {record.examinationNotes && (
             <>
-              <h4 className="font-medium text-slate-900 mt-6 mb-3">Examination Notes</h4>
-              <p className="text-slate-700">{record.examinationNotes}</p>
+              <h4 className="font-semibold text-slate-900 mt-6 mb-3">Examination Notes</h4>
+              <p className="text-slate-900">{record.examinationNotes}</p>
             </>
           )}
           
           {record.followUpDate && (
             <div className="mt-6 pt-4 border-t border-slate-200">
-              <p className="text-sm text-slate-600">Follow-up Appointment:</p>
-              <p className="text-lg font-semibold text-blue-600 mt-1">{formatDate(record.followUpDate)}</p>
+              <p className="text-sm text-slate-700">Follow-up Appointment:</p>
+              <p className="text-lg font-bold text-blue-600 mt-1">{formatDate(record.followUpDate)}</p>
             </div>
           )}
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 p-6 print:hidden">
-        <div className="container mx-auto text-center text-sm text-slate-600">
+      <footer className="bg-white border-t border-slate-300 p-6 print:hidden">
+        <div className="container mx-auto text-center text-sm text-slate-700">
           <p>EHR Midwifery System © 2024 | Printed on {new Date().toLocaleDateString('id-ID')}</p>
         </div>
       </footer>
