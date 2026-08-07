@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Header from '@/components/Header';
 import { PlusCircle, Search, Filter, Download, FileText, Hospital } from 'lucide-react';
+import Link from 'next/link';
 
 interface RecordData {
   id?: string;
@@ -253,9 +253,10 @@ export default function RecordsPage() {
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredRecords.map((record) => (
-              <div 
+              <Link 
                 key={record.id} 
-                className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-lg hover:border-blue-300 transition-all duration-300 cursor-pointer group"
+                href={`/dashboard/records/${record.id}`}
+                className="group block bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-lg hover:border-blue-300 transition-all duration-300"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
@@ -295,9 +296,9 @@ export default function RecordsPage() {
                       day: 'numeric'
                     })}
                   </p>
-                  <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">View Details →</button>
+                  <span className="text-sm text-blue-600 font-medium">View Details →</span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}

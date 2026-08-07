@@ -1,11 +1,11 @@
-At line:1 char:85
-+ ... ce '\(\/\(dashboard\)\/records\)', '\'\/dashboard\/records\'' -replac ...
-+                                           ~~~~~~~~~~~~~~~~~~~~~~~
-Unexpected token '\/dashboard\/records\''' in expression or statement.
-At line:1 char:219
-+ ... n' | Set-Content 'app/auth/login/page.tsx'; echo 'Fixed login route')
-+                                                                         ~
-Unexpected token ')' in expression or statement.
+At line:1 char:95
++ ... replace 'import { useState, useEffect } from '\\''react'\\''', 'impor ...
++                                                   ~~~~~~~~~~~~~~~
+Unexpected token '\\''react'\\'''' in expression or statement.
+At line:1 char:110
++ ... eplace 'import { useState, useEffect } from '\\''react'\\''', 'import ...
++                                                                 ~
+Missing argument in parameter list.
     + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
     + FullyQualifiedErrorId : UnexpectedToken
  
