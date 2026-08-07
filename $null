@@ -1,11 +1,1 @@
-At line:1 char:95
-+ ... replace 'import { useState, useEffect } from '\\''react'\\''', 'impor ...
-+                                                   ~~~~~~~~~~~~~~~
-Unexpected token '\\''react'\\'''' in expression or statement.
-At line:1 char:110
-+ ... eplace 'import { useState, useEffect } from '\\''react'\\''', 'import ...
-+                                                                 ~
-Missing argument in parameter list.
-    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
-    + FullyQualifiedErrorId : UnexpectedToken
- 
+fatal: invalid refspec 'Git push done'

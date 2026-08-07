@@ -18,42 +18,22 @@ interface MidwifeStats {
   weeklyGrowth: string;
 }
 
-interface PatientStats {
-  myPregnancies: number;
-  upComingCheckups: number;
-  lastVisit: string;
-  healthScore: string;
-  medicationRefills: number;
-  notifications: number;
-}
-
-// Mock statistics
-const getStatistics = (role: string): MidwifeStats | PatientStats => {
-  if (role === 'midwife') {
-    return {
-      totalPatients: 15,
-      activePregnancies: 8,
-      upcomingAppointments: 3,
-      recentRecords: 5,
-      todayVisits: 4,
-      weeklyGrowth: '+12%',
-    };
-  } else {
-    return {
-      myPregnancies: 1,
-      upComingCheckups: 2,
-      lastVisit: '3 months ago',
-      healthScore: '85%',
-      medicationRefills: 1,
-      notifications: 3,
-    };
-  }
+// Mock statistics - FIXED TO RETURN ONLY MIDWIFE STATS FOR NOW
+const getStatistics = (role: string): MidwifeStats => {
+  return {
+    totalPatients: 15,
+    activePregnancies: 8,
+    upcomingAppointments: 3,
+    recentRecords: 5,
+    todayVisits: 4,
+    weeklyGrowth: '+12%',
+  };
 };
 
 export default function DashboardPage() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const [stats, setStats] = useState<MidwifeStats | PatientStats | null>(null);
+  const [stats, setStats] = useState<MidwifeStats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -146,7 +126,7 @@ export default function DashboardPage() {
 
         {/* Statistics Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {isMidwife && stats && (
+          {stats && (
             <>
               {/* Total Patients */}
               <div className="bg-white rounded-xl shadow-sm border border-slate-300 p-6">
@@ -185,113 +165,37 @@ export default function DashboardPage() {
               </div>
             </>
           )}
-
-          {!isMidwife && stats && (
-            <>
-              {/* My Pregnancies */}
-              <div className="bg-white rounded-xl shadow-sm border border-slate-300 p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <Baby className="w-8 h-8 text-pink-600" />
-                  <span className="text-2xl font-bold text-slate-900">{stats.myPregnancies}</span>
-                </div>
-                <p className="text-sm text-slate-600">My Pregnancies</p>
-              </div>
-
-              {/* Upcoming Checkups */}
-              <div className="bg-white rounded-xl shadow-sm border border-slate-300 p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <Calendar className="w-8 h-8 text-green-600" />
-                  <span className="text-2xl font-bold text-slate-900">{stats.upComingCheckups}</span>
-                </div>
-                <p className="text-sm text-slate-600">Upcoming Checkups</p>
-              </div>
-
-              {/* Health Score */}
-              <div className="bg-white rounded-xl shadow-sm border border-slate-300 p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <Activity className="w-8 h-8 text-blue-600" />
-                  <span className="text-2xl font-bold text-slate-900">{stats.healthScore}</span>
-                </div>
-                <p className="text-sm text-slate-600">Health Score</p>
-              </div>
-
-              {/* Notifications */}
-              <div className="bg-white rounded-xl shadow-sm border border-slate-300 p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <svg className="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                  </svg>
-                  <span className="text-2xl font-bold text-slate-900">{stats.notifications}</span>
-                </div>
-                <p className="text-sm text-slate-600">Notifications</p>
-              </div>
-            </>
-          )}
         </div>
 
         {/* Quick Actions */}
         <div className="grid md:grid-cols-2 gap-6 mb-8">
-          {isMidwife ? (
-            <>
-              <button 
-                onClick={() => router.push('/dashboard/records/new')}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 p-6 text-left"
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <PlusCircle className="w-10 h-10 text-white mb-3" />
-                    <h3 className="text-xl font-semibold text-white mb-2">New Medical Record</h3>
-                    <p className="text-blue-100 text-sm">Create new patient medical record</p>
-                  </div>
-                  <ArrowRight className="w-6 h-6 text-white mt-4 opacity-70" />
-                </div>
-              </button>
+          <button 
+            onClick={() => router.push('/dashboard/records/new')}
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 p-6 text-left"
+          >
+            <div className="flex items-start justify-between">
+              <div>
+                <PlusCircle className="w-10 h-10 text-white mb-3" />
+                <h3 className="text-xl font-semibold text-white mb-2">New Medical Record</h3>
+                <p className="text-blue-100 text-sm">Create new patient medical record</p>
+              </div>
+              <ArrowRight className="w-6 h-6 text-white mt-4 opacity-70" />
+            </div>
+          </button>
 
-              <button 
-                onClick={() => router.push('/dashboard/patients')}
-                className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 p-6 text-left"
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <Users className="w-10 h-10 text-white mb-3" />
-                    <h3 className="text-xl font-semibold text-white mb-2">Patient Management</h3>
-                    <p className="text-green-100 text-sm">View and manage all patients</p>
-                  </div>
-                  <ArrowRight className="w-6 h-6 text-white mt-4 opacity-70" />
-                </div>
-              </button>
-            </>
-          ) : (
-            <>
-              <button 
-                onClick={() => router.push('/dashboard/records')}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 p-6 text-left"
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <FileText className="w-10 h-10 text-white mb-3" />
-                    <h3 className="text-xl font-semibold text-white mb-2">My Medical Records</h3>
-                    <p className="text-blue-100 text-sm">View your healthcare history</p>
-                  </div>
-                  <ArrowRight className="w-6 h-6 text-white mt-4 opacity-70" />
-                </div>
-              </button>
-
-              <button 
-                onClick={() => router.push('/dashboard/analytics')}
-                className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 p-6 text-left"
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <Activity className="w-10 h-10 text-white mb-3" />
-                    <h3 className="text-xl font-semibold text-white mb-2">Health Analytics</h3>
-                    <p className="text-purple-100 text-sm">Track your health progress</p>
-                  </div>
-                  <ArrowRight className="w-6 h-6 text-white mt-4 opacity-70" />
-                </div>
-              </button>
-            </>
-          )}
+          <button 
+            onClick={() => router.push('/dashboard/patients')}
+            className="bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 p-6 text-left"
+          >
+            <div className="flex items-start justify-between">
+              <div>
+                <Users className="w-10 h-10 text-white mb-3" />
+                <h3 className="text-xl font-semibold text-white mb-2">Patient Management</h3>
+                <p className="text-green-100 text-sm">View and manage all patients</p>
+              </div>
+              <ArrowRight className="w-6 h-6 text-white mt-4 opacity-70" />
+            </div>
+          </button>
         </div>
       </main>
     </div>
